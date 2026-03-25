@@ -6,40 +6,58 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+enum MemberLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  PRO
+}
+enum CourtType {
+  TENNIS
+  PADEL
+  SQUASH
+  BADMINTON
+}
 
+enum Surface {
+  CLAY
+  HARD
+  GRASS
+  SYNTHETIC
+}
+
+model Court {
+  id       Int       @id @default(autoincrement())
+  name     String
+  type     CourtType
+  surface  Surface
+  indoor   Boolean
+  active   Boolean   @default(true)
+  bookings Booking[]
+}
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Booking {
+  id        Int           @id @default(autoincrement())
+  status    BookingStatus @default(PENDING)
+  startTime DateTime
+  endTime   DateTime
+  memberId  Int
+  member    Member        @relation(fields: [memberId], references: [id])
+  courtId   Int
+  court     Court         @relation(fields: [courtId], references: [id])
+}
 model Member {
   id Int @id @default(autoincrement())
   name String
   email String @unique
-  level String
+  level MemberLevel
   createdAt DateTime @default(now())
   bookings Booking[]
-  lessons Lesson[]
-}
-model Court {
-  id Int @id @default(autoincrement())
-  name String
-  type String
-  occupied Boolean
-  bookings Booking[]
-  lessons Lesson[]
-}
-model Booking {
-  id Int @id @default(autoincrement())
-  status String
-  date DateTime
-  memberId Int
-  member Member @relation(fields: [memberId], references: [id])
-  courtId Int
-  court Court @relation(fields: [courtId], references: [id])
-}
-model Lesson {
-  id Int @id @default(autoincrement())
-  memberId Int
-  member Member @relation(fields: [memberId], references: [id])
-  date DateTime
-  courtId Int
-  court Court @relation(fields: [courtId], references: [id])
-
 }
 

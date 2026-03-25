@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as memberRepository from '../domain/member.repository';
 import { Member } from '../domain/member.entity';
+import { CreateMemberDto } from '../infrastructure/dto/create-member.dto';
 
 @Injectable()
 export class MemberService {
@@ -11,7 +12,7 @@ export class MemberService {
   findAll(): Promise<Member[]> {
     return this.repo.findAll();
   }
-  create(member: Member): Promise<Member> {
-    return this.repo.create(member);
+  create(data: CreateMemberDto): Promise<Member> {
+    return this.repo.create(data);
   }
 }

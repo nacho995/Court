@@ -27,7 +27,6 @@ export class AiService {
     const response = await this.llm.invoke([
       new SystemMessage(`Eres el asistente IA de un club de deportes de raqueta.
       Responde basándote en estos datos:\n${context}`),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new HumanMessage(question),
     ]);
     return response.content as string;

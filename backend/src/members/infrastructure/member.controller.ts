@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { MemberService } from '../application/member.service';
-import { Member } from '../domain/member.entity';
+import { CreateMemberDto } from './dto/create-member.dto';
 
 @Controller('api/members')
 export class MemberController {
@@ -10,7 +10,7 @@ export class MemberController {
     return this.service.findAll();
   }
   @Post()
-  create(@Body() member) {
-    return this.service.create(member);
+  create(@Body() dto: CreateMemberDto) {
+    return this.service.create(dto);
   }
 }

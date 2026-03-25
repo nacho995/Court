@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BookingService } from '../application/booking.service';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('api/bookings')
 export class BookingController {
@@ -9,7 +10,7 @@ export class BookingController {
     return this.service.findAll();
   }
   @Post()
-  create(@Body() booking) {
-    return this.service.create(booking);
+  create(@Body() dto: CreateBookingDto) {
+    return this.service.create(dto);
   }
 }
